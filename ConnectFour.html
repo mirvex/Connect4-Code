@@ -148,8 +148,8 @@ button,table,#game,body,td {
         </div>
         <script src="code.min.js"></script>
 <script>
-    
-(function(doc){
+
+(function(connectZoinks){
     // start function
     var start = function(){
         finished = false;
@@ -163,7 +163,7 @@ button,table,#game,body,td {
         }
     }, // putting stuff onto html board        
     element = function(id){
-        return doc.getElementById(id);
+        return connectZoinks.getElementById(id);
     },
     value = function(el){
         return element(el).innerHTML;
