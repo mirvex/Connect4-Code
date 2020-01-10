@@ -43,12 +43,12 @@ button,table,#game,body,td {
     border-radius:12px 12px 0 0;
 }
 
-#gameboard .red {
+#gameboard .shaggy {
     background:#f00;
 }
 
-#gameboard .yellow {
-    background:#ff0;
+#gameboard .scooby {
+    background: yellow;
 }
 
 #r,#gameboard td {
@@ -80,8 +80,8 @@ button,table,#game,body,td {
 </style>
 
 <body>
-    <span id="a">red</span>
-    <span id="b">yellow</span>
+    <span id="a">scooby</span>
+    <span id="b">shaggy</span>
     <span id="n">Are you sure you want to start a new game?</span>
     <span id="w">The %s player won.
     Do you want to play a new game?</span>
@@ -148,7 +148,7 @@ button,table,#game,body,td {
         </div>
         <script src="code.min.js"></script>
 <script>
-// list of functions using expressions
+    
 (function(doc){
     // start function
     var start = function(){
