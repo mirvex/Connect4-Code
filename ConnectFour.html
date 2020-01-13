@@ -82,7 +82,6 @@ button,table,#game,body,td {
     <span id="a">scooby</span>
     <span id="b">shaggy</span>
     <span id="n"></span>
-    <span id="w">The %s player won.</span>
     <div id="game">It's the <span id="c"></span>&nbsp;player's move.
         <table id="gameboard">
             <tr>
@@ -146,7 +145,7 @@ button,table,#game,body,td {
         </div>
         <script src="code.min.js"></script>
 <script>
-let moves = -1;
+let moves = 0;
 let counter = 0;
 function moveCounter (){
     moves++;
@@ -240,7 +239,6 @@ function moveCounter (){
     players = [value("a"),value("b")],         
     current = 0,
     newGameMessage = value("n"),
-    wonMessage = value("w"),
     finished;
     start();
     forAllCells(addCellBehavior);
