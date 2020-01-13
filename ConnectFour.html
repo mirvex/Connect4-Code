@@ -7,7 +7,6 @@
     <title>Connect Four</title>
 </head>
 <style>
-/* all of the css used to create the way the board looks */
 body {
     text-align:center;
     font-family: Helvetica, Arial, "Lucida Grande", sans-serif; 
@@ -82,9 +81,8 @@ button,table,#game,body,td {
 <body>
     <span id="a">scooby</span>
     <span id="b">shaggy</span>
-    <span id="n">Are you sure you want to start a new game?</span>
-    <span id="w">The %s player won.
-    Do you want to play a new game?</span>
+    <span id="n"></span>
+    <span id="w">The %s player won.</span>
     <div id="game">It's the <span id="c"></span>&nbsp;player's move.
         <table id="gameboard">
             <tr>
@@ -154,8 +152,7 @@ button,table,#game,body,td {
     var start = function(){
         finished = false;
         changePlayer();
-    },  	
-    // restart function to clear cells	
+    },	
     newGame = function(message){
         if (confirm(message)){
             start();
@@ -212,7 +209,7 @@ button,table,#game,body,td {
     },
     testClass = function(i,j,value){
         return cell(i,j).className == value;
-    }, // allow us to click and fill in cell, test conditions etc
+    },
     addCellBehavior = function(i,j){
         cell(i,j).onclick = function(j){
             return function(){
