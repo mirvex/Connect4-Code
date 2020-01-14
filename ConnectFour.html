@@ -152,9 +152,8 @@ function moveCounter (){
     counter.innerHTML = moves
     console.log(moves);
 }
-(function(connectfour){
     // start function
-    var start = function(){
+    function start(){
         finished = false;
         changePlayer();
     }
@@ -229,26 +228,27 @@ function colorField(i,j,color){
 function testClass(i,j,value){
      return cell(i,j).className == value;
 }
-    addCellBehavior = function(i,j){
-        cell(i,j).onclick = function(j){
-            return function(){
-                if(!finished){
-                    for (var t = 6;t>0;t--){
-                        if(testClass(t,j,'')){
-                            colorField(t,j,players[current]);
-                            if(horizontalWon(t,j) || verticalWon(t,j) || diagonalLtrWon(t,j) || diagonalRtlWon(t,j)){
-                                finished = true;
-                                newGame(wonMessage.replace("%s",players[current]));
-                            } else {
-                                changePlayer();
-                            }
-                            break;
+function addCellBehavior(i,j){
+    cell(i,j).onclick = function(j){
+        return function(){
+            if(!finished){
+                for (var t = 6;t>0;t--){
+                    if(testClass(t,j,'')){
+                        colorField(t,j,players[current]);
+                        if(horizontalWon(t,j) || verticalWon(t,j) || diagonalLtrWon(t,j) || diagonalRtlWon(t,j)){
+                            finished = true;
+                            newGame(wonMessage.replace("%s",players[current]));
+                        } else {
+                            changePlayer();
                         }
+                        break;
                     }
                 }
             }
-        }(j);
-    },
+        }
+    }(j);
+}
+
     players = [value("a"),value("b")],         
     current = 0,
     newGameMessage = value("n"),
@@ -259,11 +259,6 @@ function testClass(i,j,value){
     element("r").onclick = function(){
         newGame(newGameMessage)
     };
-})(document);
-
-
-
-
 </script>
 </body>
 </html>
