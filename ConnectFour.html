@@ -7,6 +7,7 @@
     <title>Connect Four</title>
 </head>
 <style>
+/* all of the css used to create the way the board looks */
 body {
     text-align:center;
     font-family: Helvetica, Arial, "Lucida Grande", sans-serif; 
@@ -42,12 +43,12 @@ button,table,#game,body,td {
     border-radius:12px 12px 0 0;
 }
 
-#gameboard .shaggy {
+#gameboard .red {
     background:#f00;
 }
 
-#gameboard .scooby {
-    background: yellow;
+#gameboard .yellow {
+    background:#ff0;
 }
 
 #r,#gameboard td {
@@ -79,10 +80,12 @@ button,table,#game,body,td {
 </style>
 
 <body>
-    <span id="a">scooby</span>
-    <span id="b">shaggy</span>
-    <span id="n"></span>
-    <div id="game">It's <span id="c"></span>&nbsp;'s move.
+    <span id="a">red</span>
+    <span id="b">yellow</span>
+    <span id="n">Are you sure you want to start a new game?</span>
+    <span id="w">The %s player won.
+    Do you want to play a new game?</span>
+    <div id="game">It's the <span id="c"></span>&nbsp;player's move.
         <table id="gameboard">
             <tr>
                 <td id="c-1-1"></td>
@@ -145,113 +148,95 @@ button,table,#game,body,td {
         </div>
         <script src="code.min.js"></script>
 <script>
-let moves = 0;
-let counter = 0;
-function moveCounter (){
-    moves++;
-    counter.innerHTML = moves
-    console.log(moves);
-}
+// list of functions using expressions
+(function(doc){
     // start function
-    function start(){
+    var start = function(){
         finished = false;
         changePlayer();
-    }
-function newGame(message){
-    if (confirm(message)){
-        start();
-        forAllCells(emptyField);
-}
-    } // putting stuff onto html board        
-function element(id){
-    return connectZoinks.getElementById(id);
-}
-
-function value(el){
-    return element(el).innerHTML;
-}  
-
-function cell(i,j){
-    return element("c-"+i+"-"+j);
-} 
-
-function forAllCells(action){
-    for (var t = 1;t<7;t++){
-        for (var counter2 = 1;counter2<8;counter2++){
-                action(t,counter2);
+    },  	
+    // restart function to clear cells	
+    newGame = function(message){
+        if (confirm(message)){
+            start();
+            forAllCells(emptyField);
         }
-    }
-    
-}
-
-function sameColor(i,j){
-    return testClass(i,j,players[current]);
-} //function to swap between players          
-
-function changePlayer(){
-    element("c").innerHTML = players[current = (current + 1) % 2];
-    moveCounter();
-} // multiple win conditions like horizontal, diagonal etc      
-
-function horizontalWon(i,j){
-    for(var min=j-1;min>0;min--)if(!sameColor(i,min))break;					
-    for(var max=j+1;max<8;max++)if(!sameColor(i,max))break;
-    return max-min>4;
-}
-                                
- function verticalWon(i,j){
-for(var max=i+1;max<7;max++)if(!sameColor(max,j))break;
-    return max-i>3;
-
-}   
-
-function diagonalLtrWon(i,j){
-    for(var min=i-1,t=j-1;min>0;min--,t--)if(t<1||!sameColor(min,t))break;
-    for(var max=i+1,t=j+1;max<7;max++,t++)if(t>7||!sameColor(max,t))break;
+    }, // putting stuff onto html board        
+    element = function(id){
+        return doc.getElementById(id);
+    },
+    value = function(el){
+        return element(el).innerHTML;
+    },                        
+    cell = function(i,j){
+        return element("c-"+i+"-"+j);
+    },       
+    forAllCells = function(action){
+        for (var t = 1;t<7;t++){
+            for (var counter2 = 1;counter2<8;counter2++){
+                action(t,counter2);
+            }
+        }
+    },                     
+    sameColor = function(i,j){
+        return testClass(i,j,players[current]);
+    }, //function to swap between players                        
+    changePlayer = function(){
+        element("c").innerHTML = players[current = (current + 1) % 2];
+    }, // multiple win conditions like horizontal, diagonal etc                       
+    horizontalWon = function(i,j){
+        for(var min=j-1;min>0;min--)if(!sameColor(i,min))break;					
+        for(var max=j+1;max<8;max++)if(!sameColor(i,max))break;
         return max-min>4;
-}
+    },
 
-function diagonalRtlWon(i,j){
-    for(var min=i-1,t=j+1;min>0;min--,t++)if(t>7||!sameColor(min,t))break;
-    for(var max=i+1,t=j-1;max<7;max++,t--)if(t<1||!sameColor(max,t))break;
-    return max-min>4;
-}
-
-function colorField(i,j,color){
-    cell(i,j).className = color;
-}
-
+    verticalWon = function(i,j){
+        for(var max=i+1;max<7;max++)if(!sameColor(max,j))break;
+        return max-i>3;
+    },                        
+    diagonalLtrWon = function(i,j){
+        for(var min=i-1,t=j-1;min>0;min--,t--)if(t<1||!sameColor(min,t))break;
+        for(var max=i+1,t=j+1;max<7;max++,t++)if(t>7||!sameColor(max,t))break;
+        return max-min>4;
+    },                      
+    diagonalRtlWon = function(i,j){
+        for(var min=i-1,t=j+1;min>0;min--,t++)if(t>7||!sameColor(min,t))break;
+        for(var max=i+1,t=j-1;max<7;max++,t--)if(t<1||!sameColor(max,t))break;
+        return max-min>4;
+    },         
+    colorField = function(i,j,color){
+        cell(i,j).className = color;
+    },                      
     emptyField = function(i,j){
         colorField(i,j,'');
-    }
-
-function testClass(i,j,value){
-     return cell(i,j).className == value;
-}
-function addCellBehavior(i,j){
-    cell(i,j).onclick = function(j){
-        return function(){
-            if(!finished){
-                for (var t = 6;t>0;t--){
-                    if(testClass(t,j,'')){
-                        colorField(t,j,players[current]);
-                        if(horizontalWon(t,j) || verticalWon(t,j) || diagonalLtrWon(t,j) || diagonalRtlWon(t,j)){
-                            finished = true;
-                            newGame(wonMessage.replace("%s",players[current]));
-                        } else {
-                            changePlayer();
+    },
+    testClass = function(i,j,value){
+        return cell(i,j).className == value;
+    }, // allow us to click and fill in cell, test conditions etc
+    addCellBehavior = function(i,j){
+        cell(i,j).onclick = function(j){
+            return function(){
+                if(!finished){
+                    for (var t = 6;t>0;t--){
+                        if(testClass(t,j,'')){
+                            colorField(t,j,players[current]);
+                            if(horizontalWon(t,j) || verticalWon(t,j) || diagonalLtrWon(t,j) || diagonalRtlWon(t,j)){
+                                finished = true;
+                                newGame(wonMessage.replace("%s",players[current]));
+                            } else {
+                                changePlayer();
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
-        }
-    }(j);
-}
-
+        }(j);
+    },
     players = [value("a"),value("b")],         
     current = 0,
     newGameMessage = value("n"),
+    wonMessage = value("w"),
     finished;
     start();
     forAllCells(addCellBehavior);
@@ -259,6 +244,11 @@ function addCellBehavior(i,j){
     element("r").onclick = function(){
         newGame(newGameMessage)
     };
+})(document);
+
+
+
+
 </script>
 </body>
 </html>
