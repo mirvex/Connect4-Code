@@ -149,71 +149,70 @@ button,table,#game,body,td {
         <script src="code.min.js"></script>
 <script>
 // list of functions using expressions
-(function(doc){
     // start function
     var start = function(){
         finished = false;
         changePlayer();
-    },  	
+    }
     // restart function to clear cells	
-    newGame = function(message){
+    function newGame(message){
         if (confirm(message)){
             start();
             forAllCells(emptyField);
         }
-    }, // putting stuff onto html board        
-    element = function(id){
+    } // putting stuff onto html board        
+    function element(id){
         return doc.getElementById(id);
-    },
-    value = function(el){
+    }
+    function value(el){
         return element(el).innerHTML;
-    },                        
-    cell = function(i,j){
+    }                     
+    function cell(i,j){
         return element("c-"+i+"-"+j);
-    },       
-    forAllCells = function(action){
+    }    
+    function addCellBehavior(action){
         for (var t = 1;t<7;t++){
             for (var counter2 = 1;counter2<8;counter2++){
                 action(t,counter2);
             }
         }
-    },                     
-    sameColor = function(i,j){
+    }                    
+    function sameColor(i,j){
         return testClass(i,j,players[current]);
-    }, //function to swap between players                        
-    changePlayer = function(){
+    } //function to swap between players                        
+    function changePlayer(){
         element("c").innerHTML = players[current = (current + 1) % 2];
-    }, // multiple win conditions like horizontal, diagonal etc                       
-    horizontalWon = function(i,j){
+    } // multiple win conditions like horizontal, diagonal etc                       
+    function horizontalWon(i,j){
         for(var min=j-1;min>0;min--)if(!sameColor(i,min))break;					
         for(var max=j+1;max<8;max++)if(!sameColor(i,max))break;
         return max-min>4;
-    },
+    }
 
-    verticalWon = function(i,j){
+    function verticalWon(i,j){
         for(var max=i+1;max<7;max++)if(!sameColor(max,j))break;
         return max-i>3;
-    },                        
-    diagonalLtrWon = function(i,j){
+    }                        
+    function diagonalLtrWon(i,j){
         for(var min=i-1,t=j-1;min>0;min--,t--)if(t<1||!sameColor(min,t))break;
         for(var max=i+1,t=j+1;max<7;max++,t++)if(t>7||!sameColor(max,t))break;
         return max-min>4;
-    },                      
-    diagonalRtlWon = function(i,j){
+    }              
+    function diagonalRtlWon(i,j){
         for(var min=i-1,t=j+1;min>0;min--,t++)if(t>7||!sameColor(min,t))break;
         for(var max=i+1,t=j-1;max<7;max++,t--)if(t<1||!sameColor(max,t))break;
         return max-min>4;
-    },         
-    colorField = function(i,j,color){
+    }         
+    function colorField(i,j,color){
         cell(i,j).className = color;
-    },                      
-    emptyField = function(i,j){
+    }                  
+    function emptyField(i,j){
         colorField(i,j,'');
-    },
-    testClass = function(i,j,value){
+    }
+    function testClass(i,j,value){
         return cell(i,j).className == value;
-    }, // allow us to click and fill in cell, test conditions etc
-    addCellBehavior = function(i,j){
+    } // allow us to click and fill in cell, test conditions etc
+    function addCellBehavior(i,j){
         cell(i,j).onclick = function(j){
             return function(){
                 if(!finished){
@@ -232,7 +231,7 @@ button,table,#game,body,td {
                 }
             }
         }(j);
-    },
+    }
     players = [value("a"),value("b")],         
     current = 0,
     newGameMessage = value("n"),
@@ -244,11 +243,6 @@ button,table,#game,body,td {
     element("r").onclick = function(){
         newGame(newGameMessage)
     };
-})(document);
-
-
-
-
 </script>
 </body>
 </html>
